@@ -7,17 +7,17 @@ package br.edu.infnet.krossby_jogo_quina_backend.model.entity;
 
 import br.edu.infnet.krossby_jogo_quina_backend.model.enumerator.TipoJogo;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serial;
-import java.util.Date;
+import java.time.LocalDate;
+@Builder
 @RequiredArgsConstructor
 @Getter
 @Setter
 @Entity
 @Table(name = "tb_aposta")
+@AllArgsConstructor
 public class Aposta extends EntidadeBase{
 
     @Serial
@@ -37,7 +37,7 @@ public class Aposta extends EntidadeBase{
     private String numeroJogo;
 
     @Column(nullable = false)
-    private Date dataJogo;
+    private LocalDate dataJogo;
 
     @Enumerated(EnumType.STRING)
     private TipoJogo tipoJogo;
