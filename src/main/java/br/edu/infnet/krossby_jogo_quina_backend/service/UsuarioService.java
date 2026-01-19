@@ -9,12 +9,15 @@ import br.edu.infnet.krossby_jogo_quina_backend.exception.BusinessException;
 import br.edu.infnet.krossby_jogo_quina_backend.exception.NaoEncontradoException;
 import br.edu.infnet.krossby_jogo_quina_backend.model.dto.UsuarioDTO;
 import br.edu.infnet.krossby_jogo_quina_backend.model.entity.Usuario;
+import br.edu.infnet.krossby_jogo_quina_backend.model.enumerator.TipoRole;
 import br.edu.infnet.krossby_jogo_quina_backend.repository.UsuarioRepository;
 import br.edu.infnet.krossby_jogo_quina_backend.util.GeralUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static br.edu.infnet.krossby_jogo_quina_backend.util.CentroDeMensagens.E_UM_CAMPO_OBRIGATORIO;
@@ -44,7 +47,7 @@ public class UsuarioService implements ServiceBase<UsuarioDTO, UUID> {
                 .nome(usuarioSaved.getNome())
                 .email(usuarioSaved.getEmail())
                 .userLogin(usuarioSaved.getUserLogin())
-                .userSenha("**********")
+                .role(usuarioSaved.getRole())
                 .build();
     }
 
@@ -59,6 +62,10 @@ public class UsuarioService implements ServiceBase<UsuarioDTO, UUID> {
         if (!GeralUtils.emailValido(objeto.getEmail())) {
             throw new BusinessException("campo ".concat(FORMATO_E_MAIL_INCORRETO));
         }
+        if (objeto.getRole() == null)
+            throw new BusinessException("campo role :".concat(E_UM_CAMPO_OBRIGATORIO));
+        if (!TipoRole.exists(objeto.getRole().name()))
+            throw new BusinessException("campo role : ".concat("não existe role com esse tipo"));
     }
 
     @Transactional(readOnly = true)
@@ -87,6 +94,5 @@ public class UsuarioService implements ServiceBase<UsuarioDTO, UUID> {
     public Usuario buscarUsuarioPorId(UUID id) {
         return this.usuarioRepository.findById(id).orElseThrow(()-> new NaoEncontradoException(String.format("Usuário com %s, não encontrado!", id)));
     }
-
 
 }

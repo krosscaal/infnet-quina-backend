@@ -8,16 +8,14 @@ package br.edu.infnet.krossby_jogo_quina_backend.resource;
 import br.edu.infnet.krossby_jogo_quina_backend.exception.BusinessException;
 import br.edu.infnet.krossby_jogo_quina_backend.model.dto.UsuarioDTO;
 import br.edu.infnet.krossby_jogo_quina_backend.service.UsuarioService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/usuario")
-public class UsuarioResource extends ResourceBase<UsuarioDTO, UUID>{
+public class UsuarioResource {
 
     private final UsuarioService usuarioService;
 
@@ -25,23 +23,18 @@ public class UsuarioResource extends ResourceBase<UsuarioDTO, UUID>{
         this.usuarioService = usuarioService;
     }
 
-    @Override
-    protected ResponseEntity<UsuarioDTO> acaoIncluir(UsuarioDTO dto) throws BusinessException {
-        return new ResponseEntity<>(usuarioService.salvar(dto), HttpStatus.CREATED);
-    }
-
-    @Override
-    protected ResponseEntity<UsuarioDTO> acaoObterPorId(UUID uuid) throws BusinessException {
+    @GetMapping(value = "/{uuid}", produces = {"application/json"})
+    protected ResponseEntity<UsuarioDTO> acaoObterPorId(@PathVariable("uuid") UUID uuid) throws BusinessException {
         return ResponseEntity.ok(usuarioService.buscarPorId(uuid));
     }
 
-    @Override
-    protected ResponseEntity<UsuarioDTO> acaoAlterar(UUID uuid, UsuarioDTO dto) throws BusinessException {
+    @PutMapping(value = "/alterar/{uuid}", produces = {"application/json"})
+    protected ResponseEntity<UsuarioDTO> acaoAlterar(@PathVariable("uuid") UUID uuid, @RequestBody UsuarioDTO dto) throws BusinessException {
         return ResponseEntity.ok(usuarioService.alterar(uuid, dto));
     }
 
-    @Override
-    protected void acaoExcluir(UUID uuid) throws BusinessException {
+    @DeleteMapping(value = "/{uuid}")
+    protected void acaoExcluir(@PathVariable("uuid") UUID uuid) throws BusinessException {
         usuarioService.remover(uuid);
     }
 }

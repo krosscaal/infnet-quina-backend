@@ -5,6 +5,7 @@
 
 package br.edu.infnet.krossby_jogo_quina_backend.service;
 
+import br.edu.infnet.krossby_jogo_quina_backend.config.clients.ApiLoteriaCaixaQuinaFeignClient;
 import br.edu.infnet.krossby_jogo_quina_backend.exception.NaoEncontradoException;
 import br.edu.infnet.krossby_jogo_quina_backend.util.GeralUtils;
 import br.edu.infnet.krossby_jogo_quina_backend.exception.BusinessException;
@@ -12,6 +13,7 @@ import br.edu.infnet.krossby_jogo_quina_backend.model.dto.ApostaDTO;
 import br.edu.infnet.krossby_jogo_quina_backend.model.entity.Aposta;
 import br.edu.infnet.krossby_jogo_quina_backend.model.entity.Usuario;
 import br.edu.infnet.krossby_jogo_quina_backend.repository.ApostaRepository;
+import feign.FeignException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,18 +24,23 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static br.edu.infnet.krossby_jogo_quina_backend.util.CentroDeMensagens.*;
 
 @Service
 public class ApostaQuinaService implements ServiceBase<ApostaDTO, UUID> {
+    Logger logger = Logger.getLogger(ApostaQuinaService.class.getName());
 
     private final ApostaRepository apostaRepository;
     private final UsuarioService usuarioService;
+    private final ApiLoteriaCaixaQuinaFeignClient apiLoteriaCaixaQuinaFeignClient;
 
-    public ApostaQuinaService(ApostaRepository apostaRepository, UsuarioService usuarioService) {
+    public ApostaQuinaService(ApostaRepository apostaRepository, UsuarioService usuarioService, ApiLoteriaCaixaQuinaFeignClient apiLoteriaCaixaQuinaFeignClient) {
         this.apostaRepository = apostaRepository;
         this.usuarioService = usuarioService;
+        this.apiLoteriaCaixaQuinaFeignClient = apiLoteriaCaixaQuinaFeignClient;
     }
 
     @Transactional
@@ -119,6 +126,14 @@ public class ApostaQuinaService implements ServiceBase<ApostaDTO, UUID> {
         Pageable pageable = PageRequest.of(pagina, tamanho);
 
         return apostaRepository.findAll(pageable).map(this::entidadeToDto);
+    }
+    public ApiLoteriaCaixaQuinaFeignClient.ApiCaixaQuinaResponse obterLoteriaQuinaCaixaApi(String jogo) {
+        try {
+            return apiLoteriaCaixaQuinaFeignClient.obterLoteriaQuinaCaixa(jogo);
+        } catch (FeignException e) {
+            logger.log(Level.SEVERE, "Erro ao obter sorteio da quina Api Caixa", e);
+            return null;
+        }
     }
 
 }

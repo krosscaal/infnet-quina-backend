@@ -29,7 +29,7 @@ public abstract class ResourceBase<T, ID> {
     protected abstract ResponseEntity<T> acaoObterPorId(ID id) throws BusinessException;
 
 
-    @PutMapping(value = "/alterar/{id}")
+    @PutMapping(value = "/alterar/{id}", produces = {"application/json"})
     public ResponseEntity<T> alterar(@PathVariable("id") ID id, @Valid @RequestBody T dto) throws BusinessException {
         return this.acaoAlterar(id, dto);
     }
