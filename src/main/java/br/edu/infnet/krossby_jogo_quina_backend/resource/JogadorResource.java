@@ -5,15 +5,15 @@
 
 package br.edu.infnet.krossby_jogo_quina_backend.resource;
 
+import br.edu.infnet.krossby_jogo_quina_backend.config.clients.ApiLoteriaCaixaQuinaFeignClient;
 import br.edu.infnet.krossby_jogo_quina_backend.exception.BusinessException;
 import br.edu.infnet.krossby_jogo_quina_backend.model.dto.JogadorDTO;
 import br.edu.infnet.krossby_jogo_quina_backend.model.dto.JogadorResponseDTO;
 import br.edu.infnet.krossby_jogo_quina_backend.service.JogadorService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -49,5 +49,12 @@ public class JogadorResource extends ResourceBase<JogadorDTO, UUID>{
     @GetMapping(value = "/todos", produces = {"application/json"})
     public ResponseEntity<List<JogadorResponseDTO>> buscarTodos() {
         return ResponseEntity.ok(jogadorService.buscarTodos());
+    }
+
+    @GetMapping(value ="/buscar", produces = {"application/json"})
+    public Page<JogadorResponseDTO> acaoBuscar(
+            @RequestParam(required = false, defaultValue = "0") Integer page,
+            @RequestParam(required = false, defaultValue = "10") Integer size) {
+        return jogadorService.bucar(page, size);
     }
 }
