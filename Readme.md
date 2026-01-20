@@ -2,6 +2,8 @@
 
 Este projeto é uma API REST desenvolvida para o gerenciamento (CRUD) de jogadores de Quina, funcionando como o back-end da aplicação.
 
+
+
 ## 🚀 Funcionalidades
 
 *   **CRUD de Jogadores:** Gerenciamento completo de informações dos jogadores.
@@ -22,6 +24,13 @@ Este projeto é uma API REST desenvolvida para o gerenciamento (CRUD) de jogador
 *   **OpenFeign (FeignClient):** Utilizado para o consumo simplificado e declarativo da API externa de loterias da Caixa.
 *   **Lombok:** Para redução de código boilerplate.
 *   **Jakarta EE:** Uso de especificações modernas com o namespace `jakarta.*`.
+
+
+## 💻 Projeto Front-end Relacionado
+
+Este back-end foi desenvolvido para servir à seguinte aplicação front-end:
+*   **Repositório Front-end:** [infnet-quina-frontend](https://github.com/krosscaal/infnet-quina-frontend)
+
 
 ## 🔐 Segurança
 
