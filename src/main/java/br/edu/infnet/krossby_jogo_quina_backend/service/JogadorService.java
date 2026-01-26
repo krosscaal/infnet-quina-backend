@@ -13,7 +13,6 @@ import br.edu.infnet.krossby_jogo_quina_backend.model.dto.JogadorResponseDTO;
 import br.edu.infnet.krossby_jogo_quina_backend.model.entity.Jogador;
 import br.edu.infnet.krossby_jogo_quina_backend.repository.JogadorRepository;
 import br.edu.infnet.krossby_jogo_quina_backend.util.GeralUtils;
-import feign.FeignException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,8 +23,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.springframework.data.domain.Sort;
 
 import static br.edu.infnet.krossby_jogo_quina_backend.util.CentroDeMensagens.*;
 
@@ -126,7 +126,7 @@ public class JogadorService implements ServiceBase<JogadorDTO, UUID> {
 
         int pagina = page == null ? 0 : Math.max(0, page);
         int tamanho = size == null ? 10 : Math.max(1, size);
-        Pageable pageable = PageRequest.of(pagina, tamanho);
+        Pageable pageable = PageRequest.of(pagina, tamanho, Sort.by("nome"));
         Page<Jogador> jogadorPage = jogadorRepository.findAll(pageable);
         return jogadorPage.map(jogador -> {
             String[] numeros = jogador.getAposta().split(",");
