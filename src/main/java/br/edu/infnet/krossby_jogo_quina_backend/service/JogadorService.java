@@ -5,7 +5,6 @@
 
 package br.edu.infnet.krossby_jogo_quina_backend.service;
 
-import br.edu.infnet.krossby_jogo_quina_backend.config.clients.ApiLoteriaCaixaQuinaFeignClient;
 import br.edu.infnet.krossby_jogo_quina_backend.exception.BusinessException;
 import br.edu.infnet.krossby_jogo_quina_backend.exception.NaoEncontradoException;
 import br.edu.infnet.krossby_jogo_quina_backend.model.dto.JogadorDTO;
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 import org.springframework.data.domain.Sort;
 
@@ -31,13 +29,10 @@ import static br.edu.infnet.krossby_jogo_quina_backend.util.CentroDeMensagens.*;
 
 @Service
 public class JogadorService implements ServiceBase<JogadorDTO, UUID> {
-    Logger logger = Logger.getLogger(JogadorService.class.getName());
     private final JogadorRepository jogadorRepository;
-    private final ApiLoteriaCaixaQuinaFeignClient apiLoteriaCaixaQuinaFeignClient;
 
-    public JogadorService(JogadorRepository jogadorRepository, ApiLoteriaCaixaQuinaFeignClient apiLoteriaCaixaQuinaFeignClient) {
+    public JogadorService(JogadorRepository jogadorRepository) {
         this.jogadorRepository = jogadorRepository;
-        this.apiLoteriaCaixaQuinaFeignClient = apiLoteriaCaixaQuinaFeignClient;
     }
 
     @Override

@@ -5,7 +5,6 @@
 
 package br.edu.infnet.krossby_jogo_quina_backend.resource;
 
-import br.edu.infnet.krossby_jogo_quina_backend.config.clients.ApiLoteriaCaixaQuinaFeignClient;
 import br.edu.infnet.krossby_jogo_quina_backend.exception.BusinessException;
 import br.edu.infnet.krossby_jogo_quina_backend.model.dto.JogadorDTO;
 import br.edu.infnet.krossby_jogo_quina_backend.model.dto.JogadorResponseDTO;

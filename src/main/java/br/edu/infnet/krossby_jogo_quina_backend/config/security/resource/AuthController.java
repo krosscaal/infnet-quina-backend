@@ -24,34 +24,6 @@ public class AuthController {
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
-//    @Autowired
-//    private AuthenticationManager authenticationManager;
-//    @Autowired
-//    private UsuarioRepository repository;
-//    @Autowired
-//    private TokenService tokenService;
-
-
-
-//    @PostMapping(value = "/login")
-//    public ResponseEntity<Object> login (@RequestBody @Valid LoginDTO loginDTO) {
-//
-//        UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(loginDTO.userLogin(), loginDTO.userSenha());
-//        Authentication authenticate = this.authenticationManager.authenticate(usernamePassword);
-//        String token = tokenService.gerarToken((Usuario) authenticate.getPrincipal());
-//        return ResponseEntity.ok(new LoginResponseDTO(token));
-//    }
-//    @PostMapping(value = "/register")
-//    public ResponseEntity<Object> register(@RequestBody @Valid UsuarioDTO usuarioDTO) {
-//        if (repository.findByEmail(usuarioDTO.getUserLogin()) != null) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//        String encryptedSenha = new BCryptPasswordEncoder().encode(usuarioDTO.getUserSenha());
-//        Usuario novoUsuario = new Usuario(usuarioDTO.getNome(), usuarioDTO.getEmail(), usuarioDTO.getUserLogin(), encryptedSenha, usuarioDTO.getRole());
-//        this.repository.save(novoUsuario);
-//
-//        return ResponseEntity.ok().build();
-//    }
 
     @PostMapping(value = "/login")
     public ResponseEntity<Object> login (@RequestBody @Valid LoginDTO loginDTO) {

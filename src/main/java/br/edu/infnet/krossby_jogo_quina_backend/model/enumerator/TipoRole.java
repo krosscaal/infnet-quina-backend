@@ -19,9 +19,6 @@ public enum TipoRole {
     public static TipoRole valueOfRole(final int ordinal) {
         return TipoRole.values()[ordinal];
     }
-//    public static TipoRole valueOfRole(final String nomeRole) {
-//        return TipoRole.valueOf(nomeRole);
-//    }
     public static TipoRole valueOfRole(String nomeRole) {
         for (TipoRole tipoRole : TipoRole.values()) {
             if (tipoRole.getNomeRole().equalsIgnoreCase(nomeRole)) {
